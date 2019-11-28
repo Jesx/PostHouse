@@ -153,7 +153,7 @@ class AddFreightViewController: UIViewController {
         
         guard let name = freightNameTextField.text else { return }
         guard let desctoption = freightDescriptionTextField.text else { return }
-        guard let weightString = weightTextField.text, let weight = Int(weightString) else { return }
+        guard let weightString = weightTextField.text, let weight = Float(weightString) else { return }
         guard let startStation = startLocationTextField.text else { return }
         guard let desStation = destinationTextField.text else { return }
         guard let priceString = priceTextField.text, let price = Int(priceString) else { return }

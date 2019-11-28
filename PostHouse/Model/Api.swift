@@ -70,7 +70,7 @@ struct LoginResponse: Codable {
 struct Freight: Codable {
     let name: String
     let description: String
-    let weight: Int
+    let weight: Float
     let des_station_name: String
     let start_station_name: String
     let price: Int
@@ -106,7 +106,7 @@ struct GetFreight: Codable {
     struct Data: Codable {
         let name: String
         let description: String
-        let weight: Int
+        let weight: Float
         let price: Int
         let status: String
         let photo_url: String?
@@ -226,7 +226,7 @@ class PostHouseData {
     }
     
     // MARK: - Upload A Freight
-    func uploadFreight(name: String, description: String, weight: Int, desStation: String, startStation: String, price: Int, completion: @escaping (FreightResponse) -> Void) {
+    func uploadFreight(name: String, description: String, weight: Float, desStation: String, startStation: String, price: Int, completion: @escaping (FreightResponse) -> Void) {
         
         let freight = Freight(name: name, description: name, weight: weight, des_station_name: desStation, start_station_name: startStation, price: price)
         
