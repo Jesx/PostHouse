@@ -70,12 +70,12 @@ class LoginViewController: UIViewController {
                     DispatchQueue.main.async {
                         alert = UIAlertController(title: "登入成功", message: "\((response.data?.username)!) 歡迎回來", preferredStyle: .alert)
                         okAction = UIAlertAction(title: "OK", style: .default) { (_) in
-//                            let freightTBC = self.storyboard?.instantiateViewController(identifier: "FreightTBC") as! UITabBarController
+
                             let selectedStationVC = self.storyboard?.instantiateViewController(identifier: "SelectedStationVC") as! SelectedStationViewController
                             
                             token = (response.data?.api_token)!
-                            print(token)
-//                            self.present(freightTBC, animated: true, completion: nil)
+//                            print(token)
+
                             self.present(selectedStationVC, animated: true, completion: nil)
                         }
                     }

@@ -30,6 +30,7 @@ class FreightViewController: UIViewController {
         
         tableView.tableFooterView = UIView()
         
+        self.tabBarController?.tabBar.unselectedItemTintColor = #colorLiteral(red: 0.6642242074, green: 0.6642400622, blue: 0.6642315388, alpha: 1)
         self.tabBarController?.tabBar.barTintColor = station.color
         self.navigationController?.navigationBar.barTintColor = station.color
     

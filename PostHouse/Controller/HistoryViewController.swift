@@ -52,6 +52,30 @@ class HistoryViewController: UIViewController {
 }
 
 extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func downloadImage(urlString: String, completion: @escaping (Data) -> ()) {
+        if let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                    return
+                } else {
+                    if let posterData = data {
+                        
+                        DispatchQueue.main.async(execute: {
+                            self.tableView.reloadData()
+                            completion(posterData)
+                            
+                        })
+                    }
+                    
+                }
+            }
+            task.resume()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return freightHistory.count
     }
@@ -60,9 +84,20 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: HistoryTableViewCell.self), for: indexPath) as! HistoryTableViewCell
         
-        cell.nameLabel.text = freightHistory[indexPath.row].name
-        cell.weightLabel.text = String(freightHistory[indexPath.row].weight)
-        cell.statusLabel.text = freightHistory[indexPath.row].status
+        let freight = freightHistory[indexPath.row]
+        
+        if let photoUrl = freight.photo_url {
+            downloadImage(urlString: photoUrl) { (data) in
+                cell.itemImageView.image = UIImage(data: data)
+            }
+        } else {
+            cell.itemImageView.image = UIImage(named: "dummy-image")
+        }
+        
+        
+        cell.nameLabel.text = freight.name
+        cell.weightLabel.text = String(freight.weight)
+        cell.statusLabel.text = freight.status
         
         cell.selectionStyle = .none
         
