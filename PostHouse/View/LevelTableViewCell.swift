@@ -12,6 +12,8 @@ class LevelTableViewCell: UITableViewCell {
 
     @IBOutlet weak var totalWeightLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
+    @IBOutlet weak var incomeLabel: UILabel!
+    
     @IBOutlet weak var cardView: CardView!
     
     override func awakeFromNib() {

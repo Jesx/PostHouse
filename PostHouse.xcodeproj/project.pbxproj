@@ -81,8 +81,8 @@
 			children = (
 				561679A1238CEA8A009ED980 /* CardView.swift */,
 				56FA0BBA238B885700A201CA /* FreightTableViewCell.swift */,
-				561679A5238CEDF9009ED980 /* LevelTableViewCell.swift */,
 				5653A9BD238D4A2100A962DA /* HistoryTableViewCell.swift */,
+				561679A5238CEDF9009ED980 /* LevelTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

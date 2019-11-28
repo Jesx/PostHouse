@@ -22,15 +22,13 @@ class LevelViewController: UIViewController {
     var progress: Progress!
     
     var level = Level.One
-    var currentAchievement = 0
     
     var station = Station.Athens
 
-    var stationLevel: Int!
+    var stationLevel = 0
+    var totalWeight: Float = 0
+    var income = 0
     
-    var totalWeight = ""
-    var levelString = ""
-
     enum Level: Int {
         case One, Two, Three, Four
         
@@ -87,10 +85,10 @@ class LevelViewController: UIViewController {
     func getLevel() {
         activityIndicator.isHidden = false
         PostHouseData().getStationLevel { (getStationLevel) in
-            self.totalWeight = String(getStationLevel.data[self.station.id - 1].totalWeight)
-            self.levelString = String(getStationLevel.data[self.station.id - 1].level)
+            
             self.stationLevel = getStationLevel.data[self.station.id - 1].level
-            self.currentAchievement = getStationLevel.data[self.station.id - 1].totalWeight
+            self.totalWeight = getStationLevel.data[self.station.id - 1].totalWeight
+            self.income = getStationLevel.data[self.station.id - 1].income
             
             switch self.stationLevel {
             case 1:
@@ -120,7 +118,7 @@ class LevelViewController: UIViewController {
     
     func progressSetting() {
         progress = Progress(totalUnitCount: Int64(level.spec))
-        progress.completedUnitCount = Int64(currentAchievement)
+        progress.completedUnitCount = Int64(totalWeight)
         progressView.setProgress(Float(progress.fractionCompleted), animated: true)
     }
     
@@ -137,8 +135,10 @@ extension LevelViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LevelTableViewCell.self), for: indexPath) as! LevelTableViewCell
-        cell.totalWeightLabel.text = totalWeight
-        cell.levelLabel.text = levelString
+        
+        cell.totalWeightLabel.text = String(totalWeight)
+        cell.levelLabel.text = String(stationLevel)
+        cell.incomeLabel.text = String(income)
         
         cell.contentView.backgroundColor = station.color
         

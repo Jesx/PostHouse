@@ -127,7 +127,8 @@ struct GetStationLevel: Codable {
         let id: Int
         let name: String
         let level: Int
-        let totalWeight: Int
+        let totalWeight: Float
+        let income: Int
     }
 }
 
