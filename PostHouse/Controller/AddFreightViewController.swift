@@ -67,7 +67,9 @@ class AddFreightViewController: UIViewController {
         
         PostHouseData().getStation { (station) in
             self.stations = station.data
-            self.locationPicker.reloadAllComponents()
+            DispatchQueue.main.async {
+                self.locationPicker.reloadAllComponents()
+            }
         }
         
         // Listen for the keyboard

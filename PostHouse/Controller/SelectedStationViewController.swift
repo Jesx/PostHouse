@@ -51,6 +51,8 @@ class SelectedStationViewController: UIViewController {
         present(freightTBC, animated: true, completion: nil)
         
     }
-    
+    @IBAction func logout(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
     
 }

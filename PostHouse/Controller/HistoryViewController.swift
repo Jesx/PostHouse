@@ -13,7 +13,7 @@ class HistoryViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var freightHistory = [GetFreight.Data]()
+    var freightHistory = [GetFreight.FreightData]()
     var station = Station.Athens
     
     override func viewDidLoad() {
@@ -37,7 +37,7 @@ class HistoryViewController: UIViewController {
         self.activityIndicator.isHidden = false
         PostHouseData().getFreights { (getFreight) in
             let freightsByStation = getFreight.data.filter({ $0.start_station.name == self.station.rawValue })
-            self.freightHistory = freightsByStation.filter({ $0.status == "已抵達" })
+            self.freightHistory = freightsByStation.filter({ $0.status == "已抵達" || $0.status == "已註銷" })
 
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -53,28 +53,6 @@ class HistoryViewController: UIViewController {
 
 extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func downloadImage(urlString: String, completion: @escaping (Data) -> ()) {
-        if let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                    return
-                } else {
-                    if let posterData = data {
-                        
-                        DispatchQueue.main.async(execute: {
-                            self.tableView.reloadData()
-                            completion(posterData)
-                            
-                        })
-                    }
-                    
-                }
-            }
-            task.resume()
-        }
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return freightHistory.count
@@ -86,14 +64,19 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         let freight = freightHistory[indexPath.row]
         
-        if let photoUrl = freight.photo_url {
-            downloadImage(urlString: photoUrl) { (data) in
-                cell.itemImageView.image = UIImage(data: data)
-            }
+//        if let photoUrl = freight.photo_url {
+//            downloadImage(urlString: photoUrl) { (data) in
+//                cell.itemImageView.image = UIImage(data: data)
+//            }
+//        } else {
+//            cell.itemImageView.image = UIImage(named: "dummy-image")
+//        }
+        
+        if let image = freight.image {
+            cell.itemImageView.image = image
         } else {
             cell.itemImageView.image = UIImage(named: "dummy-image")
         }
-        
         
         cell.nameLabel.text = freight.name
         cell.weightLabel.text = String(freight.weight)

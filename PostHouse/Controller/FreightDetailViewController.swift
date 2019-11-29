@@ -18,7 +18,7 @@ class FreightDetailViewController: UIViewController {
     @IBOutlet weak var currentLocationLabel: UILabel!
     @IBOutlet weak var destinaionLabel: UILabel!
     
-    var freight: GetFreight.Data!
+    var freight: GetFreight.FreightData!
     
     override func viewDidLoad() {
         super.viewDidLoad()

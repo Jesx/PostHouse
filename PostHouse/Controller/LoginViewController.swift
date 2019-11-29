@@ -19,8 +19,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        accountTextField.text = "JJJ"
-        passwordTextField.text = "123"
+//        accountTextField.text = "JJJ"
+//        passwordTextField.text = "123"
         
         buttonApparance(loginButton, color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         buttonApparance(signUpButton, color: #colorLiteral(red: 0.4620226622, green: 0.8382837176, blue: 1, alpha: 1))

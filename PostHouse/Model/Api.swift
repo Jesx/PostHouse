@@ -83,7 +83,7 @@ struct FreightResponse: Codable {
     struct Data: Codable {
         let name: String
         let description: String
-        let weight: Int
+        let weight: Float
         let price: Int
         let status: String
         let id: Int
@@ -101,9 +101,9 @@ struct GetStation: Codable {
 
 struct GetFreight: Codable {
     let message: String
-    let data: [Data]
+    let data: [FreightData]
     
-    struct Data: Codable {
+    struct FreightData: Codable {
         let name: String
         let description: String
         let weight: Float
@@ -116,6 +116,15 @@ struct GetFreight: Codable {
         
         struct Station: Codable {
             let name: String
+        }
+        
+        var image: UIImage? {
+            if let url = photo_url, let photoUrl = URL(string: url) {
+                if let data = try? Data(contentsOf: photoUrl) {
+                    return UIImage(data: data)
+                }
+            }
+            return nil
         }
     }
 }

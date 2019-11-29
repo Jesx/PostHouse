@@ -14,12 +14,14 @@ class FreightViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var freightsByStation = [GetFreight.Data]()
+    var freightsByStation = [GetFreight.FreightData]()
     
     var station = Station.Athens
 
-    var searchArray = [GetFreight.Data]()
+    var searchArray = [GetFreight.FreightData]()
     var searching = false
+    
+    var imageDataArray = [Data]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +45,11 @@ class FreightViewController: UIViewController {
         loadData()
     }
     
+    
     func loadData() {
         activityIndicator.isHidden = false
         PostHouseData().getFreights { (getFreight) in
-            self.freightsByStation = getFreight.data.filter({ $0.start_station.name == self.station.rawValue }).filter( {$0.status != "已抵達"} )
+            self.freightsByStation = getFreight.data.filter({ $0.start_station.name == self.station.rawValue }).filter( {$0.status != "已抵達" && $0.status != "已註銷"} )
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -57,6 +60,7 @@ class FreightViewController: UIViewController {
             }
         }
     }
+    
     
     @IBAction func didTapRefresh(_ sender: UIBarButtonItem) {
         loadData()
@@ -83,29 +87,6 @@ extension FreightViewController: UITableViewDelegate, UITableViewDataSource {
         
         return !searching ? freightsByStation.count : searchArray.count
     }
-    
-    func downloadImage(urlString: String, completion: @escaping (Data) -> ()) {
-        if let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                    return
-                } else {
-                    if let posterData = data {
-                        
-                        DispatchQueue.main.async(execute: {
-                            self.tableView.reloadData()
-                            completion(posterData)
-                            
-                        })
-                    }
-                    
-                }
-            }
-            task.resume()
-        }
-    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -117,10 +98,8 @@ extension FreightViewController: UITableViewDelegate, UITableViewDataSource {
             freight = searchArray[indexPath.row]
         }
 
-        if let photoUrl = freight.photo_url {
-            downloadImage(urlString: photoUrl) { (data) in
-                cell.itemImageView.image = UIImage(data: data)
-            }
+        if let image = freight.image {
+            cell.itemImageView.image = image
         } else {
             cell.itemImageView.image = UIImage(named: "dummy-image")
         }
@@ -128,7 +107,6 @@ extension FreightViewController: UITableViewDelegate, UITableViewDataSource {
         cell.nameLabel.text = freight.name
         cell.weightLabel.text = String(freight.weight)
         cell.statusLabel.text = freight.status
-        
         
         cell.selectionStyle = .none
         

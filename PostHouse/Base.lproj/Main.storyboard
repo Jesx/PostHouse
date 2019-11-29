@@ -72,7 +72,7 @@
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="請輸入驛站帳號" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qaJ-xg-goo">
                                                 <rect key="frame" x="104" y="0.0" width="248" height="34"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -89,7 +89,7 @@
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="請輸入密碼" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SRg-KY-Ijj">
                                                 <rect key="frame" x="104" y="0.0" width="248" height="34"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" textContentType="password"/>
                                             </textField>
@@ -401,7 +401,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="XMA-z5-sgg" firstAttribute="leading" secondItem="4H7-Qj-qTE" secondAttribute="leading" constant="50" id="033-Ct-AS5"/>
                             <constraint firstItem="dYs-Ea-7D4" firstAttribute="leading" secondItem="4H7-Qj-qTE" secondAttribute="leading" constant="50" id="3pn-4g-Ibl"/>
@@ -574,7 +574,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="x2d-FG-ytF" firstAttribute="top" secondItem="IpP-TE-tqh" secondAttribute="top" constant="30" id="iKe-Ab-JmZ"/>
                             <constraint firstItem="x2d-FG-ytF" firstAttribute="centerX" secondItem="wJC-ox-O5k" secondAttribute="centerX" id="mcN-lz-AZC"/>
@@ -1014,9 +1014,19 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80P-hG-fGl">
+                                <rect key="frame" x="20" y="44" width="48" height="30"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="logout:" destination="CFk-6j-bdA" eventType="touchUpInside" id="gej-DZ-BGB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="80P-hG-fGl" firstAttribute="top" secondItem="c0m-0a-4X8" secondAttribute="top" id="59S-ES-9pT"/>
                             <constraint firstItem="wdQ-sm-44P" firstAttribute="centerX" secondItem="gUd-Hq-k1m" secondAttribute="centerX" id="6Ch-wC-d0C"/>
                             <constraint firstItem="4wP-7E-OWa" firstAttribute="centerY" secondItem="gUd-Hq-k1m" secondAttribute="centerY" id="CB4-2g-6ih"/>
                             <constraint firstItem="3TB-36-8Hr" firstAttribute="width" secondItem="gUd-Hq-k1m" secondAttribute="width" multiplier="0.3" id="CwH-0N-g4a"/>
@@ -1029,6 +1039,7 @@
                             <constraint firstItem="Sle-iA-tkz" firstAttribute="height" secondItem="gUd-Hq-k1m" secondAttribute="height" multiplier="0.3" id="bS7-Kz-e7i"/>
                             <constraint firstItem="Sle-iA-tkz" firstAttribute="width" secondItem="gUd-Hq-k1m" secondAttribute="width" multiplier="0.3" id="lTi-a2-QAv"/>
                             <constraint firstItem="eNL-62-rFj" firstAttribute="height" secondItem="gUd-Hq-k1m" secondAttribute="height" multiplier="0.3" id="ooE-b8-ImH"/>
+                            <constraint firstItem="80P-hG-fGl" firstAttribute="leading" secondItem="c0m-0a-4X8" secondAttribute="leading" constant="20" id="rns-VZ-ynj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="c0m-0a-4X8"/>
                     </view>
@@ -1118,7 +1129,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gHC-yW-YeA">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryTableViewCell" rowHeight="100" id="duH-92-yn3" customClass="HistoryTableViewCell" customModule="PostHouse" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="100"/>
@@ -1198,7 +1209,7 @@
                                                 <constraint firstItem="RFH-1s-J5f" firstAttribute="centerY" secondItem="RFX-7v-OZ5" secondAttribute="centerY" id="eSy-Gx-2kc"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <connections>
                                             <outlet property="itemImageView" destination="RFH-1s-J5f" id="oMR-CW-IOk"/>
                                             <outlet property="nameLabel" destination="tUT-Cw-HS3" id="eVB-Ji-UMo"/>

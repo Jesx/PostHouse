@@ -34,18 +34,18 @@ class LevelViewController: UIViewController {
         
         var spec: Int {
             switch self {
-            case .One: return 500
-            case .Two: return 1000
-            case .Three: return 5000
-            case .Four: return 10000
+            case .One: return 10
+            case .Two: return 20
+            case .Three: return 100
+            case .Four: return 1000
             }
         }
         var startValue: Int {
             switch self {
             case .One: return 0
-            case .Two: return 500
-            case .Three: return 1000
-            case .Four: return 5000
+            case .Two: return 10
+            case .Three: return 20
+            case .Four: return 100
             }
         }
         
