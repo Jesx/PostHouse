@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PKHUD
 
 class LoginViewController: UIViewController {
 
@@ -58,7 +59,7 @@ class LoginViewController: UIViewController {
                    
             alert = UIAlertController(title: "名稱或密碼錯誤", message: "請輸入正確名稱或密碼", preferredStyle: .alert)
             okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            
+
             alert.addAction(okAction)
             present(alert, animated: true, completion: nil)
                    
@@ -67,16 +68,23 @@ class LoginViewController: UIViewController {
             PostHouseData().login(username: name!, password: password!) { (response) in
                 
                 if response.message != "Username not found" && response.message != "Wrong password" {
+                    
+                    token = (response.data?.api_token)!
+                    
                     DispatchQueue.main.async {
                         alert = UIAlertController(title: "登入成功", message: "\((response.data?.username)!) 歡迎回來", preferredStyle: .alert)
                         okAction = UIAlertAction(title: "OK", style: .default) { (_) in
-
-                            let selectedStationVC = self.storyboard?.instantiateViewController(identifier: "SelectedStationVC") as! SelectedStationViewController
                             
-                            token = (response.data?.api_token)!
-//                            print(token)
-
-                            self.present(selectedStationVC, animated: true, completion: nil)
+                            if response.data?.role_name == "station" {
+                               let vc = self.storyboard?.instantiateViewController(identifier: "SelectedStationVC") as! SelectedStationViewController
+                                self.present(vc, animated: true, completion: nil)
+                                
+                            } else if response.data?.role_name == "runner" {
+                                
+                                let vc = self.storyboard?.instantiateViewController(identifier: "FreightListTVC") as! UITabBarController
+                                self.present(vc, animated: true, completion: nil)
+                            }
+                            
                         }
                     }
                 } else {

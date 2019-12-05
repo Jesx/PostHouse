@@ -29,10 +29,10 @@ enum Station: String {
     
     var color: UIColor {
         switch self {
-        case .Athens: return #colorLiteral(red: 0, green: 0.3285208941, blue: 0.5748849511, alpha: 1)
+        case .Athens: return #colorLiteral(red: 0, green: 0.3294117647, blue: 0.5764705882, alpha: 1)
         case .Phokis: return #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         case .Arkadia: return #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
-        case .Sparta: return #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1)
+        case .Sparta: return #colorLiteral(red: 0.5803921569, green: 0.06666666667, blue: 0, alpha: 1)
         }
     }
     
@@ -64,6 +64,7 @@ struct LoginResponse: Codable {
     struct Data: Codable {
         let username: String
         let api_token: String
+        let role_name: String
     }
 }
 
@@ -171,7 +172,7 @@ class PostHouseData {
             }
             
             guard let response = response as? HTTPURLResponse,
-                (200...410).contains(response.statusCode) else {
+                (200...299).contains(response.statusCode) else {
                     print ("server error")
                     return
             }
@@ -233,6 +234,7 @@ class PostHouseData {
         
         task.resume()
     }
+    
     
     // MARK: - Upload A Freight
     func uploadFreight(name: String, description: String, weight: Float, desStation: String, startStation: String, price: Int, completion: @escaping (FreightResponse) -> Void) {
@@ -467,5 +469,75 @@ extension Data {
     mutating func appendString(string: String) {
         let data = string.data(using: String.Encoding.utf8, allowLossyConversion: true)
         append(data!)
+    }
+}
+
+
+// MARK: - Data for Runner
+
+struct TaskList: Codable {
+    let message: String
+    let data: [ListData]
+    
+    struct ListData: Codable {
+        let id: Int
+        let status: String
+        let good_name: String
+        let start_station_name: String
+        let des_station_name: String
+        let weight: Float
+        let price: Int
+        let photo_url: String?
+        
+        var image: UIImage? {
+            if let url = photo_url, let photoUrl = URL(string: url) {
+                if let data = try? Data(contentsOf: photoUrl) {
+                    return UIImage(data: data)
+                }
+            }
+            return nil
+        }
+    }
+    
+}
+
+
+class RunnerData {
+    // MARK: - Get All Tasks
+    func getTasks(completion: @escaping (TaskList) -> Void) {
+
+        let url = URL(string: "\(urlAPI)/api/preparedTasks")!
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                (200...299).contains(response.statusCode) else {
+                    print ("server error")
+                    return
+            }
+
+            guard let data = data else { return }
+
+            do {
+                let getStations = try JSONDecoder().decode(TaskList.self, from: data)
+                completion(getStations)
+
+            } catch let jsonErr {
+                print("Error serialization json: \(jsonErr)")
+            }
+        }
+
+        task.resume()
     }
 }

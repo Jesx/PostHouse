@@ -46,6 +46,7 @@ class SelectedStationViewController: UIViewController {
         
         let levelNC = freightTBC.viewControllers?[2] as! UINavigationController
         let levelVC = levelNC.viewControllers.first as! LevelViewController
+        
         levelVC.station = station
         
         present(freightTBC, animated: true, completion: nil)

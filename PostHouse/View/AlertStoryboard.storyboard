@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Alert View Controller-->
+        <scene sceneID="HLh-qI-yMC">
+            <objects>
+                <viewController storyboardIdentifier="AlertVC" modalPresentationStyle="fullScreen" id="1jk-Hp-zeL" customClass="AlertViewController" customModule="PostHouse" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="di2-vt-kOg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQe-9V-8Tf">
+                                <rect key="frame" x="83" y="286.5" width="248" height="323"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="w3Z-Fh-Urj">
+                                        <rect key="frame" x="29.5" y="277" width="189" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ng-nq-LKI">
+                                                <rect key="frame" x="0.0" y="0.0" width="74.5" height="30"/>
+                                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="取消">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SGt-36-tyr">
+                                                <rect key="frame" x="114.5" y="0.0" width="74.5" height="30"/>
+                                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="確認接單">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="訂單資訊" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcJ-SO-Uff">
+                                        <rect key="frame" x="75.5" y="20" width="97.5" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZbK-LW-cDk">
+                                        <rect key="frame" x="84" y="88.5" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="BRq-La-ZUa"/>
+                                            <constraint firstAttribute="width" constant="80" id="HNY-dN-5kc"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="是否要運送" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8y7-kC-w4e">
+                                        <rect key="frame" x="83" y="59" width="82" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5Lm-uf-N44">
+                                        <rect key="frame" x="83" y="178.5" width="82" height="78.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="貨品所在：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uSt-Fm-ByU">
+                                                <rect key="frame" x="0.0" y="0.0" width="82" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="即將送往：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zoz-aY-hIn">
+                                                <rect key="frame" x="0.0" y="29.5" width="82" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="貨品總重：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9n-rN-D0O">
+                                                <rect key="frame" x="0.0" y="59" width="82" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="ZbK-LW-cDk" firstAttribute="centerX" secondItem="AQe-9V-8Tf" secondAttribute="centerX" id="1qQ-vQ-Xe9"/>
+                                    <constraint firstItem="SGt-36-tyr" firstAttribute="width" secondItem="AQe-9V-8Tf" secondAttribute="width" multiplier="0.3" id="BD5-nc-40c"/>
+                                    <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="w3Z-Fh-Urj" secondAttribute="bottom" constant="20" id="D3d-MS-vjJ"/>
+                                    <constraint firstItem="5Lm-uf-N44" firstAttribute="top" secondItem="ZbK-LW-cDk" secondAttribute="bottom" constant="10" id="I9z-uZ-4cV"/>
+                                    <constraint firstItem="8y7-kC-w4e" firstAttribute="top" secondItem="qcJ-SO-Uff" secondAttribute="bottom" constant="10" id="IoI-fq-WO1"/>
+                                    <constraint firstItem="qcJ-SO-Uff" firstAttribute="centerX" secondItem="AQe-9V-8Tf" secondAttribute="centerX" id="McW-Hu-fDX"/>
+                                    <constraint firstItem="ZbK-LW-cDk" firstAttribute="top" secondItem="8y7-kC-w4e" secondAttribute="bottom" constant="10" id="SFf-gX-KBv"/>
+                                    <constraint firstItem="w3Z-Fh-Urj" firstAttribute="top" secondItem="5Lm-uf-N44" secondAttribute="bottom" constant="20" id="bJf-U4-Tkr"/>
+                                    <constraint firstItem="3Ng-nq-LKI" firstAttribute="width" secondItem="AQe-9V-8Tf" secondAttribute="width" multiplier="0.3" id="m0A-Xj-udV"/>
+                                    <constraint firstItem="qcJ-SO-Uff" firstAttribute="top" secondItem="AQe-9V-8Tf" secondAttribute="top" constant="20" id="pHx-L8-fnp"/>
+                                    <constraint firstItem="8y7-kC-w4e" firstAttribute="centerX" secondItem="AQe-9V-8Tf" secondAttribute="centerX" id="qzZ-cu-LlG"/>
+                                    <constraint firstItem="w3Z-Fh-Urj" firstAttribute="centerX" secondItem="AQe-9V-8Tf" secondAttribute="centerX" id="rxI-FN-20s"/>
+                                    <constraint firstItem="5Lm-uf-N44" firstAttribute="centerX" secondItem="AQe-9V-8Tf" secondAttribute="centerX" id="xGC-MD-JL5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AQe-9V-8Tf" firstAttribute="centerY" secondItem="di2-vt-kOg" secondAttribute="centerY" id="3XX-XZ-ei8"/>
+                            <constraint firstItem="AQe-9V-8Tf" firstAttribute="height" secondItem="di2-vt-kOg" secondAttribute="height" multiplier="0.36" id="9Wg-Nn-Mh5"/>
+                            <constraint firstItem="AQe-9V-8Tf" firstAttribute="width" secondItem="di2-vt-kOg" secondAttribute="width" multiplier="0.6" id="PL5-3D-bPX"/>
+                            <constraint firstItem="AQe-9V-8Tf" firstAttribute="centerX" secondItem="di2-vt-kOg" secondAttribute="centerX" id="Ybz-XS-8O0"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Yyg-Zl-W6d"/>
+                    </view>
+                    <connections>
+                        <outlet property="alertImageView" destination="ZbK-LW-cDk" id="uG2-1V-stV"/>
+                        <outlet property="alertView" destination="AQe-9V-8Tf" id="fbw-AQ-yU8"/>
+                        <outlet property="cancelButton" destination="3Ng-nq-LKI" id="oS5-t5-HAh"/>
+                        <outlet property="confirmButton" destination="SGt-36-tyr" id="02K-hO-gkw"/>
+                        <outlet property="destinationLabel" destination="Zoz-aY-hIn" id="7Ob-b4-HUQ"/>
+                        <outlet property="itemLocationLabel" destination="uSt-Fm-ByU" id="oey-ug-hIA"/>
+                        <outlet property="itemNameLabel" destination="8y7-kC-w4e" id="AVV-IV-CrB"/>
+                        <outlet property="weightLabel" destination="N9n-rN-D0O" id="28e-Wu-LCY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oAf-Zo-V9E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="128.98550724637681" y="97.767857142857139"/>
+        </scene>
+    </scenes>
+</document>

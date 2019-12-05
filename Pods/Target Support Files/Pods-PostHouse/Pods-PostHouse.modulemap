@@ -1,0 +1,6 @@
+framework module Pods_PostHouse {
+  umbrella header "Pods-PostHouse-umbrella.h"
+
+  export *
+  module * { export * }
+}

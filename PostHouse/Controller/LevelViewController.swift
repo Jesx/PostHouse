@@ -10,7 +10,6 @@ import UIKit
 
 class LevelViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var progressView: UIProgressView!
     
     @IBOutlet weak var initialLabel: UILabel!
@@ -18,6 +17,12 @@ class LevelViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    @IBOutlet weak var totalWeightLabel: UILabel!
+    @IBOutlet weak var levelLabel: UILabel!
+    @IBOutlet weak var incomeLabel: UILabel!
+    
+    @IBOutlet weak var cardView: CardView!
     
     var progress: Progress!
     
@@ -62,11 +67,6 @@ class LevelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        tableView.tableFooterView = UIView()
-
         progressView.transform = progressView.transform.scaledBy(x: 1, y: 10)
         progressView.progressTintColor = station.foregroundColor
         
@@ -75,7 +75,7 @@ class LevelViewController: UIViewController {
         
         self.navigationController?.navigationBar.barTintColor = station.color
         self.view.backgroundColor = station.color
-        tableView.backgroundColor = station.color
+        self.cardView.backgroundColor = station.foregroundColor
         
         getLevel()
         
@@ -108,12 +108,15 @@ class LevelViewController: UIViewController {
                 self.initialLabel.text = String(self.level.startValue)
                 self.endLabel.text = String(self.level.spec)
                 self.imageView.image = UIImage(named: self.level.imageName)
-                self.tableView.reloadData()
+                
+                self.totalWeightLabel.text = String(self.totalWeight)
+                self.levelLabel.text = String(self.stationLevel)
+                self.incomeLabel.text = String(self.income)
+    
                 self.activityIndicator.isHidden = true
             }
             
         }
-        
     }
     
     func progressSetting() {
@@ -128,27 +131,4 @@ class LevelViewController: UIViewController {
 
 }
 
-extension LevelViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LevelTableViewCell.self), for: indexPath) as! LevelTableViewCell
-        
-        cell.totalWeightLabel.text = String(totalWeight)
-        cell.levelLabel.text = String(stationLevel)
-        cell.incomeLabel.text = String(income)
-        
-        cell.contentView.backgroundColor = station.color
-        
-        cell.cardView.backgroundColor = station.foregroundColor
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(200)
-    }
-
-}
