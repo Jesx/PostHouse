@@ -44,6 +44,11 @@ class SelectedStationViewController: UIViewController {
         
         freightVC.station = station
         
+        let historyNC = freightTBC.viewControllers?[1] as! UINavigationController
+        let historyVC = historyNC.viewControllers.first as! HistoryViewController
+        
+        historyVC.station = station
+        
         let levelNC = freightTBC.viewControllers?[2] as! UINavigationController
         let levelVC = levelNC.viewControllers.first as! LevelViewController
         

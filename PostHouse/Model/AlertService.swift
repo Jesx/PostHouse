@@ -10,10 +10,21 @@ import UIKit
 
 class AlertService {
     
-    func alert(image: UIImage?, text: String, completion: (() -> Void)?) -> AlertViewController {
+    func alert(image: UIImage?, itemName: String, itemLocation: String, destination: String, weight: Float, completion: (() -> Void)?) -> AlertViewController {
         let storyboard = UIStoryboard(name: "AlertStoryboard", bundle: .main)
         let alertVC = storyboard.instantiateViewController(withIdentifier: "AlertVC") as! AlertViewController
-        alertVC.uiImage = image
+        
+        if let image = image {
+            alertVC.uiImage = image
+        } else {
+            alertVC.uiImage = UIImage(named: "dummy-image")
+        }
+    
+        alertVC.itemName = itemName
+        alertVC.itemLocation = itemLocation
+        alertVC.destination = destination
+        alertVC.weight = weight
+        
         alertVC.buttonAction = completion
         
         return alertVC

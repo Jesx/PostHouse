@@ -6,45 +6,10 @@
 //  Copyright © 2019 Jes Yang. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 let urlAPI = "http://35.229.230.23"
 var token = ""
-
-enum Station: String {
-    case Athens = "雅典"
-    case Phokis = "菲基斯"
-    case Arkadia = "阿卡迪亞"
-    case Sparta = "斯巴達"
-
-    var id: Int {
-        switch self {
-        case .Athens: return 1
-        case .Phokis: return 2
-        case .Arkadia: return 3
-        case .Sparta: return 4
-        }
-    }
-    
-    var color: UIColor {
-        switch self {
-        case .Athens: return #colorLiteral(red: 0, green: 0.3294117647, blue: 0.5764705882, alpha: 1)
-        case .Phokis: return #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        case .Arkadia: return #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
-        case .Sparta: return #colorLiteral(red: 0.5803921569, green: 0.06666666667, blue: 0, alpha: 1)
-        }
-    }
-    
-    var foregroundColor: UIColor {
-        switch self {
-        case .Athens: return #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        case .Phokis: return #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
-        case .Arkadia: return #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
-        case .Sparta: return #colorLiteral(red: 1, green: 0.4932718873, blue: 0.4739984274, alpha: 1)
-        }
-    }
-}
 
 struct RegisterUser: Codable {
     let role: String
@@ -119,14 +84,14 @@ struct GetFreight: Codable {
             let name: String
         }
         
-        var image: UIImage? {
-            if let url = photo_url, let photoUrl = URL(string: url) {
-                if let data = try? Data(contentsOf: photoUrl) {
-                    return UIImage(data: data)
-                }
-            }
-            return nil
-        }
+//        var image: UIImage? {
+//            if let url = photo_url, let photoUrl = URL(string: url) {
+//                if let data = try? Data(contentsOf: photoUrl) {
+//                    return UIImage(data: data)
+//                }
+//            }
+//            return nil
+//        }
     }
 }
 
@@ -172,7 +137,7 @@ class PostHouseData {
             }
             
             guard let response = response as? HTTPURLResponse,
-                (200...299).contains(response.statusCode) else {
+                (200...410).contains(response.statusCode) else {
                     print ("server error")
                     return
             }
@@ -229,7 +194,6 @@ class PostHouseData {
             }
             
             completion()
-            
         }
         
         task.resume()
@@ -477,9 +441,9 @@ extension Data {
 
 struct TaskList: Codable {
     let message: String
-    let data: [ListData]
+    let data: [TaskListData]
     
-    struct ListData: Codable {
+    struct TaskListData: Codable {
         let id: Int
         let status: String
         let good_name: String
@@ -489,22 +453,109 @@ struct TaskList: Codable {
         let price: Int
         let photo_url: String?
         
-        var image: UIImage? {
-            if let url = photo_url, let photoUrl = URL(string: url) {
-                if let data = try? Data(contentsOf: photoUrl) {
-                    return UIImage(data: data)
-                }
-            }
-            return nil
-        }
+//        var image: UIImage? {
+//            if let url = photo_url, let photoUrl = URL(string: url) {
+//                if let data = try? Data(contentsOf: photoUrl) {
+//                    return UIImage(data: data)
+//                }
+//            }
+//            return nil
+//        }
     }
-    
 }
 
+struct GetTask: Codable {
+    let shipment_id: Int
+}
+
+struct GetTaskResponse: Codable {
+    let message: String
+    let data: ResponseData?
+    
+    struct ResponseData: Codable {
+        let good_id: Int
+        let good_name: String
+        let weight: Float
+        let price: Int
+        let photo_url: String?
+        let start_station_name: String
+        let des_station_name: String
+    }
+}
+
+struct MyTask: Codable {
+    let message: String?
+    let id: Int?
+    let status: String?
+    let good_name: String?
+    let weight: Float?
+    let price: Int?
+    let start_station_name: String?
+    let des_station_name: String?
+    let photo_url: String?
+    
+//    var image: UIImage? {
+//        if let url = photo_url, let photoUrl = URL(string: url) {
+//            if let data = try? Data(contentsOf: photoUrl) {
+//                return UIImage(data: data)
+//            }
+//        }
+//        return nil
+//    }
+}
+
+struct CheckIn: Codable {
+    let start_station_name: String
+}
+
+struct CheckInResponse: Codable {
+    let message: String
+}
+
+struct CheckOut: Codable {
+    let des_station_name: String
+}
+
+struct CheckOutResponse: Codable {
+    let message: String
+}
+
+struct CancelTask: Codable {
+    let shipment_id: Int
+}
+
+struct CancelTaskResponse: Codable {
+    let message: String
+}
+
+struct RunnerHistoryResponse: Codable {
+    let message: String
+    let data: [RunnerHistoryData]?
+    
+    struct RunnerHistoryData: Codable {
+        let good_name: String
+        let start_station_name: String
+        let des_station_name: String
+        let distance: Int
+        let weight: Float
+        let price: Int
+    }
+}
+
+struct RunnerMedalResponse: Codable {
+    let message: String
+    let data: RunnerMedalData
+    
+    struct RunnerMedalData: Codable {
+        let distance: Int
+        let badge_id: Int
+        let badge_name: String
+    }
+}
 
 class RunnerData {
     // MARK: - Get All Tasks
-    func getTasks(completion: @escaping (TaskList) -> Void) {
+    func getAllTasks(completion: @escaping (TaskList) -> Void) {
 
         let url = URL(string: "\(urlAPI)/api/preparedTasks")!
 
@@ -540,4 +591,321 @@ class RunnerData {
 
         task.resume()
     }
+    
+    func confirmTask(shipmentId: Int, completion: @escaping (GetTaskResponse) -> Void) {
+        
+        let getTask = GetTask(shipment_id: shipmentId)
+        
+        guard let uploadData = try? JSONEncoder().encode(getTask) else {
+            return
+        }
+        
+        let url = URL(string: "\(urlAPI)/api/tasks")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.uploadTask(with: request, from: uploadData) { data, response, error in
+            
+            if let error = error {
+                print ("error: \(error)")
+                return
+            } else {
+                print ("Upload successed.")
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                (200...410).contains(response.statusCode) else {
+                    print ("server error")
+                    return
+            }
+            
+            
+            guard let data = data else { return }
+
+            do {
+                let getTaskResponse = try JSONDecoder().decode(GetTaskResponse.self, from: data)
+                completion(getTaskResponse)
+
+            } catch let jsonErr {
+                print("Error serialization json: \(jsonErr)")
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
+    func getTask(completion: @escaping (MyTask) -> Void) {
+
+        let url = URL(string: "\(urlAPI)/api/myTask")!
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                (200...410).contains(response.statusCode) else {
+                    print ("server error")
+                    return
+            }
+
+            guard let data = data else { return }
+
+            do {
+                let myTask = try JSONDecoder().decode(MyTask.self, from: data)
+                completion(myTask)
+
+            } catch let jsonErr {
+                print("Error serialization json: \(jsonErr)")
+            }
+        }
+
+        task.resume()
+    }
+    
+    func checkIn(startStation: String, completion: @escaping (CheckInResponse) -> Void) {
+        
+        let getStartStation = CheckIn(start_station_name: startStation)
+        
+        guard let uploadData = try? JSONEncoder().encode(getStartStation) else {
+            return
+        }
+        
+        let url = URL(string: "\(urlAPI)/api/checkin")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.uploadTask(with: request, from: uploadData) { data, response, error in
+            
+            if let error = error {
+                print ("error: \(error)")
+                return
+            } else {
+                print ("Upload successed.")
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                (200...410).contains(response.statusCode) else {
+                    print ("server error")
+                    return
+            }
+            
+            
+            guard let data = data else { return }
+
+            do {
+                let getCheckInResponse = try JSONDecoder().decode(CheckInResponse.self, from: data)
+                completion(getCheckInResponse)
+
+            } catch let jsonErr {
+                print("Error serialization json: \(jsonErr)")
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
+    func checkOut(destinationStation: String, completion: @escaping (CheckOutResponse) -> Void) {
+        
+        let getDestinationStation = CheckOut(des_station_name: destinationStation)
+        
+        guard let uploadData = try? JSONEncoder().encode(getDestinationStation) else {
+            return
+        }
+        
+        let url = URL(string: "\(urlAPI)/api/checkout")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.uploadTask(with: request, from: uploadData) { data, response, error in
+            
+            if let error = error {
+                print ("error: \(error)")
+                return
+            } else {
+                print ("Upload successed.")
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                (200...410).contains(response.statusCode) else {
+                    print ("server error")
+                    return
+            }
+            
+            
+            guard let data = data else { return }
+
+            do {
+                let getCheckOutResponse = try JSONDecoder().decode(CheckOutResponse.self, from: data)
+                completion(getCheckOutResponse)
+
+            } catch let jsonErr {
+                print("Error serialization json: \(jsonErr)")
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
+
+    func cancelTask(shipmentId: Int, completion: @escaping (CancelTaskResponse) -> Void) {
+        
+        let cancelTask = CancelTask(shipment_id: shipmentId)
+        
+        guard let uploadData = try? JSONEncoder().encode(cancelTask) else {
+            return
+        }
+        
+        let url = URL(string: "\(urlAPI)/api/statusCancel")!
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.uploadTask(with: request, from: uploadData) { data, response, error in
+            
+            if let error = error {
+                print ("error: \(error)")
+                return
+            } else {
+                print ("Upload successed.")
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                (200...410).contains(response.statusCode) else {
+                    print ("server error")
+                    return
+            }
+            
+            
+            guard let data = data else { return }
+
+            do {
+                let cancelTaskResponse = try JSONDecoder().decode(CancelTaskResponse.self, from: data)
+                completion(cancelTaskResponse)
+
+            } catch let jsonErr {
+                print("Error serialization json: \(jsonErr)")
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
+    func runnerHistory(completion: @escaping (RunnerHistoryResponse) -> Void) {
+        
+        let url = URL(string: "\(urlAPI)/api/runnerHistory")!
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                (200...410).contains(response.statusCode) else {
+                    print ("server error")
+                    return
+            }
+
+            guard let data = data else { return }
+
+            do {
+                let runnerHistory = try JSONDecoder().decode(RunnerHistoryResponse.self, from: data)
+                completion(runnerHistory)
+
+            } catch let jsonErr {
+                print("Error serialization json: \(jsonErr)")
+            }
+        }
+
+        task.resume()
+    }
+    
+    func runnerMedal(completion: @escaping (RunnerMedalResponse) -> Void) {
+        
+        let url = URL(string: "\(urlAPI)/api/medalStatus")!
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                (200...410).contains(response.statusCode) else {
+                    print ("server error")
+                    return
+            }
+
+            guard let data = data else { return }
+
+            self.parsingJSON(data: data) { (decode: RunnerMedalResponse?, jsonErr) in
+                guard let decode = decode else { return }
+                completion(decode)
+            }
+        }
+
+        task.resume()
+    }
+    
+    private func parsingJSON<T: Codable>(data: Data, completion: @escaping (T?, _ error: String?) -> ()) {
+        do {
+            let json = try JSONDecoder().decode(T.self, from: data)
+            completion(json, nil)
+
+        } catch let jsonErr {
+            print("Error serialization json: \(jsonErr)")
+            completion(nil, jsonErr as? String)
+        }
+    }
+    
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import PKHUD
+import SVProgressHUD
 
 class LoginViewController: UIViewController {
 
@@ -20,8 +21,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        accountTextField.text = "JJJ"
-//        passwordTextField.text = "123"
+//        accountTextField.text = ""
+//        passwordTextField.text = ""
         
         buttonApparance(loginButton, color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         buttonApparance(signUpButton, color: #colorLiteral(red: 0.4620226622, green: 0.8382837176, blue: 1, alpha: 1))
@@ -52,16 +53,9 @@ class LoginViewController: UIViewController {
         let name = accountTextField.text
         let password = passwordTextField.text
         
-        var alert = UIAlertController()
-        var okAction = UIAlertAction()
-        
         if (name?.isEmpty)! || name?.trimmingCharacters(in: .whitespaces) == "" || (password?.isEmpty)! {
-                   
-            alert = UIAlertController(title: "名稱或密碼錯誤", message: "請輸入正確名稱或密碼", preferredStyle: .alert)
-            okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
+            
+            HUD.flash(.labeledError(title: "名稱或密碼錯誤", subtitle: "請輸入正確名稱或密碼"), delay: 1)
                    
         } else {
             
@@ -70,44 +64,43 @@ class LoginViewController: UIViewController {
                 if response.message != "Username not found" && response.message != "Wrong password" {
                     
                     token = (response.data?.api_token)!
-                    
+//                    print(token)
                     DispatchQueue.main.async {
-                        alert = UIAlertController(title: "登入成功", message: "\((response.data?.username)!) 歡迎回來", preferredStyle: .alert)
-                        okAction = UIAlertAction(title: "OK", style: .default) { (_) in
-                            
+                        
+                        HUD.flash(.labeledSuccess(title: "登入成功", subtitle: "\((response.data?.username)!) 歡迎回來"), onView: nil, delay: 1) { (_) in
                             if response.data?.role_name == "station" {
                                let vc = self.storyboard?.instantiateViewController(identifier: "SelectedStationVC") as! SelectedStationViewController
-                                self.present(vc, animated: true, completion: nil)
+                                self.present(vc, animated: true) {
+                                    self.accountTextField.text = ""
+                                    self.passwordTextField.text = ""
+                                }
                                 
                             } else if response.data?.role_name == "runner" {
                                 
                                 let vc = self.storyboard?.instantiateViewController(identifier: "FreightListTVC") as! UITabBarController
-                                self.present(vc, animated: true, completion: nil)
+                                self.present(vc, animated: true) {
+                                    self.accountTextField.text = ""
+                                    self.passwordTextField.text = ""
+                                }
                             }
-                            
                         }
+        
                     }
                 } else {
                     DispatchQueue.main.async {
-                        alert = UIAlertController(title: "名稱或密碼錯誤", message: response.message, preferredStyle: .alert)
-                        okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        HUD.flash(.labeledError(title: "名稱或密碼錯誤", subtitle: response.message), delay: 1)
                     }
-                }
-                
-                DispatchQueue.main.async {
-                    alert.addAction(okAction)
-                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
         
     }
-    @IBAction func didTapSignUp(_ sender: UIButton) {
-        let alert = UIAlertController(title: "請洽系統管理員", message: "請寄 email 至：123@gmail.com", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
+//    @IBAction func didTapSignUp(_ sender: UIButton) {
+//        let alert = UIAlertController(title: "請洽系統管理員", message: "請寄 email 至：123@gmail.com", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alert.addAction(okAction)
+//        present(alert, animated: true, completion: nil)
+//    }
     
 }
 

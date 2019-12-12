@@ -20,6 +20,11 @@
 		568D6B192397AFBB005D496F /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D6B182397AFBB005D496F /* AlertService.swift */; };
 		568D6B1F2397B0A3005D496F /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D6B1E2397B0A3005D496F /* AlertViewController.swift */; };
 		568D6B21239890B0005D496F /* TaskInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D6B20239890B0005D496F /* TaskInfoViewController.swift */; };
+		56BCBE0E239BAA010018C818 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BCBE0D239BAA010018C818 /* QRScannerViewController.swift */; };
+		56BCBE10239DFE840018C818 /* RunnerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BCBE0F239DFE840018C818 /* RunnerInfoViewController.swift */; };
+		56BCBE12239E22170018C818 /* RunnerInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BCBE11239E22170018C818 /* RunnerInfoTableViewCell.swift */; };
+		56BCBE14239E50540018C818 /* RunnerLevelAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BCBE13239E50540018C818 /* RunnerLevelAlertViewController.swift */; };
+		56BCBE16239EBB2A0018C818 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BCBE15239EBB290018C818 /* Model.swift */; };
 		56FA0BA4238B6E8100A201CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FA0BA3238B6E8100A201CA /* AppDelegate.swift */; };
 		56FA0BA6238B6E8100A201CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FA0BA5238B6E8100A201CA /* SceneDelegate.swift */; };
 		56FA0BA8238B6E8100A201CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FA0BA7238B6E8100A201CA /* LoginViewController.swift */; };
@@ -48,6 +53,11 @@
 		568D6B182397AFBB005D496F /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		568D6B1E2397B0A3005D496F /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		568D6B20239890B0005D496F /* TaskInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInfoViewController.swift; sourceTree = "<group>"; };
+		56BCBE0D239BAA010018C818 /* QRScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QRScannerViewController.swift; path = PostHouse/Controller/QRScannerViewController.swift; sourceTree = SOURCE_ROOT; };
+		56BCBE0F239DFE840018C818 /* RunnerInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerInfoViewController.swift; sourceTree = "<group>"; };
+		56BCBE11239E22170018C818 /* RunnerInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RunnerInfoTableViewCell.swift; path = PostHouse/View/RunnerInfoTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		56BCBE13239E50540018C818 /* RunnerLevelAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RunnerLevelAlertViewController.swift; path = PostHouse/Controller/RunnerLevelAlertViewController.swift; sourceTree = SOURCE_ROOT; };
+		56BCBE15239EBB290018C818 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		56FA0BA0238B6E8100A201CA /* PostHouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostHouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56FA0BA3238B6E8100A201CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56FA0BA5238B6E8100A201CA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +100,8 @@
 			children = (
 				56FA0BC0238B9AB400A201CA /* SignUpViewController.swift */,
 				568D6B1E2397B0A3005D496F /* AlertViewController.swift */,
+				56BCBE13239E50540018C818 /* RunnerLevelAlertViewController.swift */,
+				56BCBE0D239BAA010018C818 /* QRScannerViewController.swift */,
 				56FA0BA7238B6E8100A201CA /* LoginViewController.swift */,
 				561679A7238D1F06009ED980 /* SelectedStationViewController.swift */,
 				56FA0BB8238B7F4300A201CA /* FreightViewController.swift */,
@@ -99,6 +111,7 @@
 				561679A3238CEC6A009ED980 /* LevelViewController.swift */,
 				568D6B122396007B005D496F /* TaskListViewController.swift */,
 				568D6B20239890B0005D496F /* TaskInfoViewController.swift */,
+				56BCBE0F239DFE840018C818 /* RunnerInfoViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -106,11 +119,11 @@
 		5653A9C2238E03D900A962DA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				568D6B1623978F30005D496F /* AlertStoryboard.storyboard */,
 				561679A1238CEA8A009ED980 /* CardView.swift */,
 				56FA0BBA238B885700A201CA /* FreightTableViewCell.swift */,
 				5653A9BD238D4A2100A962DA /* HistoryTableViewCell.swift */,
 				568D6B1423964176005D496F /* TaskListTableViewCell.swift */,
+				56BCBE11239E22170018C818 /* RunnerInfoTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -119,9 +132,19 @@
 			isa = PBXGroup;
 			children = (
 				56FA0BBE238B99A700A201CA /* Api.swift */,
+				56BCBE15239EBB290018C818 /* Model.swift */,
 				568D6B182397AFBB005D496F /* AlertService.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		56BCBE0C239BA9B60018C818 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				56FA0BA9238B6E8100A201CA /* Main.storyboard */,
+				568D6B1623978F30005D496F /* AlertStoryboard.storyboard */,
+			);
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 		56FA0B97238B6E8100A201CA = {
@@ -145,7 +168,7 @@
 		56FA0BA2238B6E8100A201CA /* PostHouse */ = {
 			isa = PBXGroup;
 			children = (
-				56FA0BA9238B6E8100A201CA /* Main.storyboard */,
+				56BCBE0C239BA9B60018C818 /* Storyboard */,
 				5653A9C3238E03E400A962DA /* Model */,
 				5653A9C2238E03D900A962DA /* View */,
 				5653A9C1238E03C100A962DA /* Controller */,
@@ -290,11 +313,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56BCBE0E239BAA010018C818 /* QRScannerViewController.swift in Sources */,
 				56FA0BBD238B8FE000A201CA /* AddFreightViewController.swift in Sources */,
 				561679A2238CEA8A009ED980 /* CardView.swift in Sources */,
 				5653A9BE238D4A2100A962DA /* HistoryTableViewCell.swift in Sources */,
 				5653A9C0238D4C4700A962DA /* FreightDetailViewController.swift in Sources */,
 				56FA0BA8238B6E8100A201CA /* LoginViewController.swift in Sources */,
+				56BCBE10239DFE840018C818 /* RunnerInfoViewController.swift in Sources */,
 				561679A4238CEC6A009ED980 /* LevelViewController.swift in Sources */,
 				5653A9BC238D470600A962DA /* HistoryViewController.swift in Sources */,
 				568D6B21239890B0005D496F /* TaskInfoViewController.swift in Sources */,
@@ -303,8 +328,11 @@
 				56FA0BC1238B9AB400A201CA /* SignUpViewController.swift in Sources */,
 				56FA0BA4238B6E8100A201CA /* AppDelegate.swift in Sources */,
 				56FA0BBB238B885700A201CA /* FreightTableViewCell.swift in Sources */,
+				56BCBE16239EBB2A0018C818 /* Model.swift in Sources */,
 				56FA0BB9238B7F4300A201CA /* FreightViewController.swift in Sources */,
+				56BCBE14239E50540018C818 /* RunnerLevelAlertViewController.swift in Sources */,
 				568D6B1F2397B0A3005D496F /* AlertViewController.swift in Sources */,
+				56BCBE12239E22170018C818 /* RunnerInfoTableViewCell.swift in Sources */,
 				568D6B192397AFBB005D496F /* AlertService.swift in Sources */,
 				56FA0BBF238B99A700A201CA /* Api.swift in Sources */,
 				568D6B132396007B005D496F /* TaskListViewController.swift in Sources */,
@@ -455,13 +483,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3AMPL46LPV;
+				DEVELOPMENT_TEAM = LNL6T3MTH9;
 				INFOPLIST_FILE = PostHouse/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jes-yang.PostHouse";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jy.PostHouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -476,13 +505,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3AMPL46LPV;
+				DEVELOPMENT_TEAM = LNL6T3MTH9;
 				INFOPLIST_FILE = PostHouse/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jes-yang.PostHouse";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jy.PostHouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

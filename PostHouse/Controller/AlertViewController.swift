@@ -28,7 +28,7 @@ class AlertViewController: UIViewController {
     var itemName: String!
     var itemLocation: String!
     var destination: String!
-    var weight: String!
+    var weight: Float!
     
     let alertService = AlertService()
     
@@ -37,10 +37,10 @@ class AlertViewController: UIViewController {
         
         alertImageView.image = uiImage
         
-        itemNameLabel.text = "是否要運送\(itemName ?? "")"
+        itemNameLabel.text = "是否要運送\(itemName ?? "")呢？"
         itemLocationLabel.text = "貨品所在：\(itemLocation ?? "")"
         destinationLabel.text = "即將送往：\(destination ?? "")"
-        weightLabel.text = "貨品總重：\(weight ?? "")"
+        weightLabel.text = "貨品總重：\(weight!)"
         
         alertView.layer.borderColor = #colorLiteral(red: 0.004859850742, green: 0.09608627111, blue: 0.5749928951, alpha: 1)
         alertView.layer.borderWidth = 1

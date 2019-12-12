@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class HistoryViewController: UIViewController {
 
@@ -29,19 +30,27 @@ class HistoryViewController: UIViewController {
         loadData()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        SVProgressHUD.dismiss()
+    }
+    
     @IBAction func refresh(_ sender: UIBarButtonItem) {
         loadData()
     }
     
     func loadData() {
-        self.activityIndicator.isHidden = false
+        SVProgressHUD.setBackgroundColor(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1))
+        SVProgressHUD.show()
+        
         PostHouseData().getFreights { (getFreight) in
             let freightsByStation = getFreight.data.filter({ $0.start_station.name == self.station.rawValue })
             self.freightHistory = freightsByStation.filter({ $0.status == "已抵達" || $0.status == "已註銷" })
 
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                self.activityIndicator.isHidden = true
+                SVProgressHUD.dismiss()
+    
             }
         }
     }
@@ -64,23 +73,22 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         let freight = freightHistory[indexPath.row]
         
-//        if let photoUrl = freight.photo_url {
-//            downloadImage(urlString: photoUrl) { (data) in
-//                cell.itemImageView.image = UIImage(data: data)
-//            }
-//        } else {
-//            cell.itemImageView.image = UIImage(named: "dummy-image")
-//        }
-        
-        if let image = freight.image {
-            cell.itemImageView.image = image
+        if let photoUrl = freight.photo_url {
+            let url = URL(string: photoUrl)
+            cell.itemImageView.kf.setImage(with: url)
         } else {
             cell.itemImageView.image = UIImage(named: "dummy-image")
         }
         
-        cell.nameLabel.text = freight.name
-        cell.weightLabel.text = String(freight.weight)
-        cell.statusLabel.text = freight.status
+//        if let image = freight.image {
+//            cell.itemImageView.image = image
+//        } else {
+//            cell.itemImageView.image = UIImage(named: "dummy-image")
+//        }
+        
+        cell.nameLabel.text = "物品名稱：\(freight.name)"
+        cell.weightLabel.text = "重量：\(freight.weight)"
+        cell.statusLabel.text = "狀態：\(freight.status)"
         
         cell.selectionStyle = .none
         
@@ -88,7 +96,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(100)
+        return CGFloat(120)
     }
 
 }

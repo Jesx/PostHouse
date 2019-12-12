@@ -7,5 +7,7 @@ target 'PostHouse' do
 
   # Pods for PostHouse
   pod 'PKHUD', '~> 5.0'
+  pod 'SVProgressHUD'
+  pod 'Kingfisher', '~> 5.0'
 
 end

@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import PKHUD
 
 class AddFreightViewController: UIViewController {
-
+    
     @IBOutlet weak var freightImageView: UIImageView!
     @IBOutlet weak var confirmUpload: UIButton!
     
@@ -54,19 +55,19 @@ class AddFreightViewController: UIViewController {
         weightTextField.delegate = self
         priceTextField.delegate = self
         
-//        startLocationTextField.inputView = locationPicker
+        //        startLocationTextField.inputView = locationPicker
         startLocationTextField.isEnabled = false
         startLocationTextField.text = station.rawValue
         destinationTextField.inputView = locationPicker
         
-//        startLocationTextField.delegate = self
+        //        startLocationTextField.delegate = self
         destinationTextField.delegate = self
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         view.addGestureRecognizer(tap)
         
         PostHouseData().getStation { (station) in
-            self.stations = station.data
+            self.stations = station.data.filter({$0.name != self.station.rawValue})
             DispatchQueue.main.async {
                 self.locationPicker.reloadAllComponents()
             }
@@ -75,13 +76,15 @@ class AddFreightViewController: UIViewController {
         // Listen for the keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
-
+    
     func setupfreightImage() {
-       
+        
         // When tapping the image view, the photo library show up
         freightImageView.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentPicker))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(alertSheetPresent))
         freightImageView.addGestureRecognizer(tapGesture)
     }
     
@@ -96,7 +99,19 @@ class AddFreightViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    @objc func presentPicker() {
+    @objc func alertSheetPresent() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let openPhotoLibraryAction = UIAlertAction(title: "照片庫", style: .default) { (_) in
+            self.presentPicker()
+        }
+        let cancelAction =  UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        
+        alert.addAction(openPhotoLibraryAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func presentPicker() {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
@@ -113,7 +128,7 @@ class AddFreightViewController: UIViewController {
                 
                 // Find our target Y
                 let targetY = view.frame.size.height - rect.height - 20
-            
+                
                 // Find out where the stackview is relative to the frame
                 let textFieldY = outerStackView.frame.origin.y + 20 + priceStackView.frame.origin.y
                 
@@ -131,23 +146,34 @@ class AddFreightViewController: UIViewController {
         } else {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.25, animations: {
-
+                
                 self.outerStackViewTopConstraint.constant = self.outerStackViewTopConstraintConstant
                 self.view.layoutIfNeeded()
-
+                
             })
         }
         
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-        self.view.layoutIfNeeded()
+    @objc func keyboardWillHide(notification: NSNotification) {
+        
         UIView.animate(withDuration: 0.25, animations: {
-
+            
             self.outerStackViewTopConstraint.constant = self.outerStackViewTopConstraintConstant
             self.view.layoutIfNeeded()
-
+            
+        })
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.25, animations: {
+            
+            self.outerStackViewTopConstraint.constant = self.outerStackViewTopConstraintConstant
+            self.view.layoutIfNeeded()
+            
         })
     }
     
@@ -160,43 +186,31 @@ class AddFreightViewController: UIViewController {
         guard let desStation = destinationTextField.text else { return }
         guard let priceString = priceTextField.text, let price = Int(priceString) else { return }
         
-        
         if let image = self.image {
             PostHouseData().uploadFreight(name: name, description: desctoption, weight: weight, desStation: desStation, startStation: startStation, price: price) { (response) in
                 
                 if response.message == "已登錄運送貨品" {
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "上傳成功", message: response.message, preferredStyle: .alert)
-                        let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
-                            self.navigationController?.popViewController(animated: true)
+                    PostHouseData().uploadImageWithFormData(goodId: response.data.id, image: image) { (data) in
+                        DispatchQueue.main.async {
+                            
+                            HUD.flash(.labeledSuccess(title: "上傳成功", subtitle: response.message), delay: 1)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                self.navigationController?.popViewController(animated: true)
+                            }
                         }
-                        alert.addAction(okAction)
-                        self.present(alert, animated: true, completion: nil)
                     }
                 } else {
                     DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "上傳失敗", message: "目前系統有問題，請稍後再傳", preferredStyle: .alert)
-                        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        alert.addAction(okAction)
-                        self.present(alert, animated: true, completion: nil)
+                        HUD.flash(.labeledError(title: "上傳失敗", subtitle: "目前系統有問題，請稍後再傳"), delay: 1)
                     }
                 }
-                
-                PostHouseData().uploadImageWithFormData(goodId: response.data.id, image: image) { (Data) in
-                    
-                }
-                
             }
         } else {
-            let alert = UIAlertController(title: "請選擇照片", message: "請選擇照片後再上傳", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(okAction)
-            self.present(alert, animated: true, completion: nil)
+            HUD.flash(.label("請選擇照片後再上傳"), delay: 1)
         }
-         
+        
     }
-    
-    
 }
 
 extension AddFreightViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -205,15 +219,17 @@ extension AddFreightViewController: UIImagePickerControllerDelegate, UINavigatio
         if let imageSelected = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             image = imageSelected
             freightImageView.image = imageSelected
+            freightImageView.contentMode = .scaleAspectFill
         }
         if let imageOriginal = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             image = imageOriginal
             freightImageView.image = imageOriginal
+            freightImageView.contentMode = .scaleAspectFill
         }
         
         picker.dismiss(animated: true, completion: nil)
     }
-   
+    
 }
 
 extension AddFreightViewController: UIPickerViewDelegate,UIPickerViewDataSource {
@@ -252,10 +268,10 @@ extension AddFreightViewController: UITextFieldDelegate {
             textField.resignFirstResponder()
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.25, animations: {
-
+                
                 self.outerStackViewTopConstraint.constant = self.outerStackViewTopConstraintConstant
                 self.view.layoutIfNeeded()
-
+                
             })
         }
         

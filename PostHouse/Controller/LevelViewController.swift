@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class LevelViewController: UIViewController {
 
@@ -15,8 +16,6 @@ class LevelViewController: UIViewController {
     @IBOutlet weak var initialLabel: UILabel!
     @IBOutlet weak var endLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
-    
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var totalWeightLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
@@ -77,13 +76,22 @@ class LevelViewController: UIViewController {
         self.view.backgroundColor = station.color
         self.cardView.backgroundColor = station.foregroundColor
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getLevel()
-        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        SVProgressHUD.dismiss()
     }
     
     
     func getLevel() {
-        activityIndicator.isHidden = false
+
+        SVProgressHUD.setBackgroundColor(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1))
+        SVProgressHUD.show()
         PostHouseData().getStationLevel { (getStationLevel) in
             
             self.stationLevel = getStationLevel.data[self.station.id - 1].level
@@ -112,8 +120,8 @@ class LevelViewController: UIViewController {
                 self.totalWeightLabel.text = String(self.totalWeight)
                 self.levelLabel.text = String(self.stationLevel)
                 self.incomeLabel.text = String(self.income)
-    
-                self.activityIndicator.isHidden = true
+        
+                SVProgressHUD.dismiss()
             }
             
         }

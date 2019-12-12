@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PKHUD
 
 class SignUpViewController: UIViewController {
     
@@ -41,20 +42,13 @@ class SignUpViewController: UIViewController {
         let name = accountTextField.text
         let password = passwordTextField.text
         
-        var alert = UIAlertController()
-        var okAction = UIAlertAction()
-        
         if (name?.isEmpty)! || name?.trimmingCharacters(in: .whitespaces) == "" || (password?.isEmpty)! {
             
-            alert = UIAlertController(title: "名稱錯誤", message: "請輸入正確名稱", preferredStyle: .alert)
-            okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
+            HUD.flash(.labeledError(title: "名稱或密碼錯誤", subtitle: "請輸入正確名稱和密碼"), delay: 1)
             
         } else {
             
-            PostHouseData().signUp(role: "station", username: name!, password: password!) {
+            PostHouseData().signUp(role: "runner", username: name!, password: password!) {
                 
             }
         }

@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import SVProgressHUD
+import Kingfisher
 
 class FreightViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var freightsByStation = [GetFreight.FreightData]()
     
@@ -32,6 +33,8 @@ class FreightViewController: UIViewController {
         
         tableView.tableFooterView = UIView()
         
+        searchBar.showsCancelButton = true
+        
         self.tabBarController?.tabBar.unselectedItemTintColor = #colorLiteral(red: 0.6642242074, green: 0.6642400622, blue: 0.6642315388, alpha: 1)
         self.tabBarController?.tabBar.barTintColor = station.color
         self.navigationController?.navigationBar.barTintColor = station.color
@@ -45,18 +48,20 @@ class FreightViewController: UIViewController {
         loadData()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        SVProgressHUD.dismiss()
+    }
     
     func loadData() {
-        activityIndicator.isHidden = false
+        SVProgressHUD.setBackgroundColor(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1))
+        SVProgressHUD.show()
         PostHouseData().getFreights { (getFreight) in
             self.freightsByStation = getFreight.data.filter({ $0.start_station.name == self.station.rawValue }).filter( {$0.status != "已抵達" && $0.status != "已註銷"} )
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                let secondTabNC = self.tabBarController?.viewControllers?[1] as! UINavigationController
-                let historyVC  = secondTabNC.viewControllers.first as! HistoryViewController
-                historyVC.station = self.station
-                self.activityIndicator.isHidden = true
+                SVProgressHUD.dismiss()
             }
         }
     }
@@ -73,7 +78,11 @@ class FreightViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "FreightDetailSegue", let indexPath = tableView.indexPathForSelectedRow {
             let freightDetailVC = segue.destination as! FreightDetailViewController
-            freightDetailVC.freight = freightsByStation[indexPath.row]
+            var freight = freightsByStation[indexPath.row]
+            
+            freight = searching ? searchArray[indexPath.row] : freightsByStation[indexPath.row]
+            
+            freightDetailVC.freight = freight
         } else if segue.identifier == "AddFreightSegue" {
             let addFreightVC = segue.destination as! AddFreightViewController
             addFreightVC.station = station
@@ -94,19 +103,24 @@ extension FreightViewController: UITableViewDelegate, UITableViewDataSource {
         
         var freight = freightsByStation[indexPath.row]
         
-        if searching {
-            freight = searchArray[indexPath.row]
-        }
-
-        if let image = freight.image {
-            cell.itemImageView.image = image
+        freight = searching ? searchArray[indexPath.row] : freightsByStation[indexPath.row]
+        
+        if let photoUrl = freight.photo_url {
+            let url = URL(string: photoUrl)
+            cell.itemImageView.kf.setImage(with: url)
         } else {
             cell.itemImageView.image = UIImage(named: "dummy-image")
         }
         
-        cell.nameLabel.text = freight.name
-        cell.weightLabel.text = String(freight.weight)
-        cell.statusLabel.text = freight.status
+//        if let image = freight.image {
+//            cell.itemImageView.image = image
+//        } else {
+//            cell.itemImageView.image = UIImage(named: "dummy-image")
+//        }
+        
+        cell.nameLabel.text = "物品名稱：\(freight.name)"
+        cell.weightLabel.text = "重量：\(freight.weight)"
+        cell.statusLabel.text = "狀態：\(freight.status)"
         
         cell.selectionStyle = .none
         
@@ -114,9 +128,8 @@ extension FreightViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(100)
+        return CGFloat(120)
     }
-    
 
 }
 
@@ -129,6 +142,17 @@ extension FreightViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        if !searching {
+            searching = true
+            tableView.reloadData()
+        }
+        
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searching = false
         searchBar.resignFirstResponder()
     }
 }
