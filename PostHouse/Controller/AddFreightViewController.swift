@@ -55,12 +55,12 @@ class AddFreightViewController: UIViewController {
         weightTextField.delegate = self
         priceTextField.delegate = self
         
-        //        startLocationTextField.inputView = locationPicker
+//        startLocationTextField.inputView = locationPicker
         startLocationTextField.isEnabled = false
         startLocationTextField.text = station.rawValue
         destinationTextField.inputView = locationPicker
         
-        //        startLocationTextField.delegate = self
+//        startLocationTextField.delegate = self
         destinationTextField.delegate = self
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
@@ -197,6 +197,8 @@ class AddFreightViewController: UIViewController {
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 self.navigationController?.popViewController(animated: true)
+                                let vc = self.navigationController?.viewControllers.last as! FreightViewController
+                                vc.loadData()
                             }
                         }
                     }

@@ -17,6 +17,17 @@ struct RegisterUser: Codable {
     let password: String
 }
 
+struct RegisterUserResponse: Codable {
+    let role: String?
+    let username: String?
+    let password: String?
+    let message: username?
+    
+    struct username: Codable {
+        let username: [String]
+    }
+}
+
 struct LoginUser:  Codable {
     let username: String
     let password: String
@@ -161,7 +172,7 @@ class PostHouseData {
     }
     
     // MARK: - Sign Up
-    func signUp(role: String, username: String, password: String, completion: @escaping () -> Void) {
+    func signUp(role: String, username: String, password: String, completion: @escaping (RegisterUserResponse) -> Void) {
         
         let loginUser = RegisterUser(role: role, username: username, password: password)
         
@@ -188,12 +199,24 @@ class PostHouseData {
             }
             
             guard let response = response as? HTTPURLResponse,
-                (200...299).contains(response.statusCode) else {
+                (200...410).contains(response.statusCode) else {
                     print ("server error")
                     return
             }
             
-            completion()
+            if let mimeType = response.mimeType,
+                mimeType == "application/json",
+                let data = data {
+                
+                do {
+                    let responseData = try JSONDecoder().decode(RegisterUserResponse.self, from: data)
+                    completion(responseData)
+                    
+                } catch let jsonErr {
+                    
+                    print("Error serialization json: \(jsonErr)")
+                }
+            }
         }
         
         task.resume()

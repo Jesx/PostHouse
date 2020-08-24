@@ -38,14 +38,15 @@ class FreightViewController: UIViewController {
         self.tabBarController?.tabBar.unselectedItemTintColor = #colorLiteral(red: 0.6642242074, green: 0.6642400622, blue: 0.6642315388, alpha: 1)
         self.tabBarController?.tabBar.barTintColor = station.color
         self.navigationController?.navigationBar.barTintColor = station.color
-    
+        
+        loadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        loadData()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -29,6 +29,9 @@ class SignUpViewController: UIViewController {
         passwordTextField.delegate = self
         
         userIdentity.isEnabled = false
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
 
     func buttonApparance(_ sender: UIButton, color: CGColor) {
@@ -36,6 +39,10 @@ class SignUpViewController: UIViewController {
         sender.layer.borderColor = color
         sender.layer.cornerRadius = 5
         sender.clipsToBounds = true
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
   
     @IBAction func didTapSignUp(_ sender: UIButton) {
@@ -48,15 +55,28 @@ class SignUpViewController: UIViewController {
             
         } else {
             
-            PostHouseData().signUp(role: "runner", username: name!, password: password!) {
-                
+            PostHouseData().signUp(role: "runner", username: name!, password: password!) { (response) in
+                if let message = response.message?.username[0] {
+                    DispatchQueue.main.async {
+                        HUD.flash(.labeledError(title: "錯誤", subtitle: message), delay: 1)
+                    }
+                    
+                } else {
+                    DispatchQueue.main.async {
+                        HUD.flash(.labeledSuccess(title: "註冊成功", subtitle: nil), delay: 1)
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    
+                }
             }
+            
         }
     }
     
     @IBAction func didTapBack(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
+    
     
 }
 
